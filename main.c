@@ -8,26 +8,33 @@ int main()
 
 char ** reader()
 {
-            printf("Before open file.\n");
-
-
-    char filename[60];
-    strcpy(filename, "/home/aj/classes/537/Shared-Memory-Producer-Consumer-Program/sample.txt");
-
-
-    FILE *file = fopen(filename, 'r');
-
-            printf("After open file.\n");
-
 
     char ch;
+    char buffer[50960];
+ 
 
     do{
-        ch = fgetc(file);
+        ch=getc(stdin);
 
-        fprintf("%c", ch);
+        
+        if(ch == '\n'){
+            //add to array
+            printf("%s", buffer);
+
+        } else{
+        strcat(buffer,ch);
+
+        // printf("%c", ch);
+
+        }
 
     }while(ch != EOF);
 
+    //remaining buffer should be added
+
     return NULL;
+
+
+
+
 }
