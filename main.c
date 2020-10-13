@@ -25,11 +25,12 @@ int main()
 {
 
     Queue **queues = malloc(sizeof(Queue *) * 3);
-        if (queues)
-    {
-        printf("%s\n", "Error: Bad Malloc");
-        exit(-1);
-    }
+    
+    // if (queues)
+    // {
+    //     printf("%s\n", "Error: Bad Malloc");
+    //     exit(-1);
+    // }
 
 
     for (int i = 0; i < 3; i++)
@@ -144,7 +145,7 @@ void *reader(void *p)
 
     EnqueueString(queues[0], NULL); // Last Enqueue, add a NULL pointer to the Queue when you detect an EOF
 
-    pthread_exit(NULL);
+    pthread_exit(NULL); //Exits thread
 };
 
 /**
@@ -192,9 +193,9 @@ void *munch1(void *p)
         }
     }
 
-    EnqueueString(queues[1], NULL);
+    EnqueueString(queues[1], NULL); // Last Enqueue, add a NULL pointer to the Queue when you detect an EOF
 
-    pthread_exit(NULL);
+    pthread_exit(NULL); // Ends thread
 }
 
 /**
@@ -241,8 +242,8 @@ void *munch2(void *p)
         }
     }
 
-    EnqueueString(queues[2], NULL);
-    pthread_exit(NULL);
+    EnqueueString(queues[2], NULL); // Last Enqueue, add a NULL pointer to the Queue when you detect an EOF
+    pthread_exit(NULL); // Ends thread
 }
 
 /**
@@ -278,7 +279,9 @@ void *writer(void *p)
         }
     }
 
-    fprintf(stdout, "\n  Total strings processeded : %i\n", totalString);
+    //Print stats
+
+    fprintf(stdout, "\n  Total strings processed : %i\n", totalString);
 
     for (int i = 0; i < 3; i++)
     {

@@ -34,6 +34,6 @@ void printQueueStats(QueueStats *s)
 {
     printf("%s %i ", "Enqueue Count: ", s->enqueueCount);
     printf("%s %i ", "Dequeue Count: ", s->dequeueCount);
-    printf("%s %d ", "Enqueue Time: ", s->enqueueTime);
-    printf("%s %d \n", "Dequeue Time: ", s->dequeueTime);
+    printf("%s %f ", "Enqueue Time: ", s->enqueueTime);
+    printf("%s %f \n", "Dequeue Time: ", s->dequeueTime);
 }

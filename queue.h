@@ -27,9 +27,13 @@ typedef struct
     int indexToRemove;
     int currentSize;
     QueueStats statistics;
-    sem_t mutex;
-    sem_t fill;
-    sem_t empty;
+    sem_t mutex; //lock
+    sem_t fill; // consumer will use sem_wait on this to make sure the queue has something in it
+                //before attempting to consume a buffer, sem_post called by producer to let consumer know
+                // there is something in the buffer
+    sem_t empty; //producer will cause sem_wait on this to make sure queue has an open spot
+                // so it dosen't overwrite memory, sem_post called by consumer to let producer know
+                // that there is an empty buffer/index to have another item placed into it
 } Queue;
 
 Queue *CreateStringQueue(int size);
