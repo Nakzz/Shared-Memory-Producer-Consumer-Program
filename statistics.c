@@ -1,15 +1,39 @@
- #include "statistics.h"
- 
- void initQueueStats(QueueStats *s){
-        s->enqueueCount = 0;
-        s->dequeueCount = 0;
-        s->enqueueTime = 0;
-        s->dequeueTime = 0;
-    }
+///////////////////////////////////////////////////////////////////////////////
+//
+// Title:		537ps
+// Filename:	statistics.c
+//
+// Course:		cs537, Fall 2020
+// Authors:		Ajmain Naqib, Devanshu Mantri
+// NetID:		naqib, dmantri
+// CsLogin:		ajmain, devanshu
+//
+///////////////////////////////////////////////////////////////////////////////
 
- void printQueueStats(QueueStats *s){
-        printf("%s %i ", "Enqueue Count: ", s->enqueueCount );
-        printf("%s %i ", "Dequeue Count: ", s->dequeueCount );
-        printf("%s %d ", "Enqueue Time: ", s->enqueueTime );
-        printf("%s %d ", "Dequeue Time: \n", s->dequeueTime );
-    }
+#include "statistics.h"
+
+/**
+ * 
+ * Constructor method for Statistics
+ * 
+ * */
+void initQueueStats(QueueStats *s)
+{
+    s->enqueueCount = 0;
+    s->dequeueCount = 0;
+    s->enqueueTime = 0;
+    s->dequeueTime = 0;
+}
+
+/**
+ * 
+ * Printer method for Statistics
+ * 
+ * */
+void printQueueStats(QueueStats *s)
+{
+    printf("%s %i ", "Enqueue Count: ", s->enqueueCount);
+    printf("%s %i ", "Dequeue Count: ", s->dequeueCount);
+    printf("%s %d ", "Enqueue Time: ", s->enqueueTime);
+    printf("%s %d \n", "Dequeue Time: ", s->dequeueTime);
+}

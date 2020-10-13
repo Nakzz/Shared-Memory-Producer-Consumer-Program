@@ -1,10 +1,25 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Title:		537ps
+// Filename:	queue.c
+//
+// Course:		cs537, Fall 2020
+// Authors:		Ajmain Naqib, Devanshu Mantri
+// NetID:		naqib, dmantri
+// CsLogin:		ajmain, devanshu
+//
+///////////////////////////////////////////////////////////////////////////////
+
 #include "queue.h"
 
+ /**
+ * 
+ * Constructor method for Queue
+ * 
+ * */
 Queue *CreateStringQueue(int size){
 
     Queue *newQ = malloc(sizeof(Queue));
-    //printf("%s %p\n", "Initalized Queue struct Addr: ", newQ);
-
     if(newQ == NULL){
         printf("Error: Bad Malloc");
         exit(-1);
@@ -19,72 +34,72 @@ Queue *CreateStringQueue(int size){
     return newQ;
 }
 
+ /**
+ * 
+ * Enqueue method for Queue
+ * 
+ * */
 void EnqueueString(Queue *q, char *string){
-    //printf("%s %p\n", "Enqueue struct Addr: ", q);
-    double start, end, elapsed;
-    struct timeval timecheck;
+   
+    double elapsed;
+    clock_t end;
+    clock_t start = clock();
+    if(start == ((clock_t) -1) ){
+        printf("%s\n", "ERROR: clock returned error value");
+    }
 
-    gettimeofday(&timecheck, NULL);
-    start = (double)timecheck.tv_sec * 1000.0 + (double)timecheck.tv_usec / 1000.0;
-
-    int *semVal = malloc(sizeof(int));
-    sem_getvalue(&(q->empty), semVal);
-    //printf("%s", "empty value before wait: ");
-    //printf("%i\n", *semVal);
     sem_wait(&(q->empty));
-    sem_getvalue(&(q->empty), semVal);
-    //printf("%s", "empty value after wait: ");
-   //printf("%i\n", *semVal);
     sem_wait(&(q->mutex));
 
     int index = q->indexToInsert;
     q->stringArray[index] = string;
-    //printf("%s %i\n", "Enqueue Index: ", index );
-    //printf("%s %s\n", "Enqueued String: ",  (q->stringArray[index]));
+  
     index = (index + 1) % q->size;
     q->indexToInsert = index;
     q->currentSize += 1;
+    end = clock();
+    if(end == ((clock_t) -1) ){
+        printf("%s\n", "ERROR: clock returned error value");
+    }
+    elapsed = (double) (end - start) / CLOCKS_PER_SEC;
 
-    gettimeofday(&timecheck, NULL);
-    end = (double)timecheck.tv_sec * 1000.0 + (double)timecheck.tv_usec / 1000.0;
-    elapsed = end - start;
-    elapsed = elapsed / 1000.0;
+    printf("%i\n", start);
+    printf("%i\n", end);
+    printf("%d\n", elapsed);
     q->statistics.enqueueTime += elapsed;
     q->statistics.enqueueCount++;
     sem_post(&(q->mutex));
     sem_post(&(q->fill));
 }
 
+ /**
+ * 
+ * Dequeue method for Queue
+ * 
+ * */
 char *DequeueString(Queue *q){
-    //printf("%s %p\n", "Dequeue struct Addr: ", q);
     char *toReturn;
-    double start, end, elapsed;
-    struct timeval timecheck;
 
-    gettimeofday(&timecheck, NULL);
-    start = (double)timecheck.tv_sec * 1000.0 + (double)timecheck.tv_usec / 1000.0;
-    int *semVal = malloc(sizeof(int));
-    sem_getvalue(&(q->fill), semVal);
-    //printf("%s", "fill value before wait: ");
-    //printf("%i\n", *semVal);
+    double elapsed;
+    clock_t end;
+    clock_t start = clock();
+    if(start == ((clock_t) -1) ){
+        printf("%s\n", "ERROR: clock returned error value");
+    }
+    
     sem_wait(&(q->fill));
-    sem_getvalue(&(q->fill), semVal);
-    //printf("%s", "fill value after wait: ");
-    //printf("%i\n", *semVal);
     sem_wait(&(q->mutex));
 
     int index = q->indexToRemove;
     toReturn = q->stringArray[index];
-    //printf("%s %i\n", "Dequeue Index: ", index );
-    //printf("%s %s\n", "Dequeued String: ", toReturn);
     index = (index + 1) % q->size;
     q->indexToRemove = index;
     q->currentSize -= 1;
-
-    gettimeofday(&timecheck, NULL);
-    end = (double)timecheck.tv_sec * 1000.0 + (double)timecheck.tv_usec / 1000.0;
-    elapsed = end - start;
-    elapsed = elapsed / 1000.0;
+    end = clock();
+    if(end == ((clock_t) -1) ){
+        printf("%s\n", "ERROR: clock returned error value");
+    }
+    elapsed = (double) (end - start) / CLOCKS_PER_SEC;
     q->statistics.dequeueTime += elapsed;
     q->statistics.dequeueCount++;
 

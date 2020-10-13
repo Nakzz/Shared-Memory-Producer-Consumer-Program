@@ -4,4 +4,6 @@ The goal of this assignment is to get experience in writing a program that actua
 
 
 To compile the code: make 
-To run the program with sample: ./prodcom < sample.txt 
+To run the program with sample input: ./prodcom < sample.txt 
+
+
